@@ -1,19 +1,20 @@
-//TODO add document ready function
-(event => {
+$(document).ready(event => {
   //TODO wrap all code related to user submit  
   $("#todo-form").submit(event => {
-    //TODO add code to keep event from "bubbling up"
+    event.preventDefault()
 
     //need to find a single input but need it as a jquery object
-    //TODO obtain the user input object and string value
-    
+    let itemInput = $($("input[name=item-input]")[0])
+    let itemValue = itemInput.val()
 
     //check that user has input a value before proceeding
     if (itemValue.length !== 0) {
 
       //create new item
-      // TODO create a new list item value with checkbox and label
-  
+      let newItemEl = $("<li>")[0]
+      let newCheckBox = $('<input type="checkbox" />')[0]
+      let newLabel = $(`<label>`).html(itemValue)[0]
+      newItemEl.append(newCheckBox, newLabel)
 
       //get a reference to list and append list item
       $('.todo-list')[0].appendChild(newItemEl);
@@ -22,8 +23,14 @@
       itemInput.val('')
 
       //set up toggle on check box click
-      //TODO set up a checkbox toggle to strike out text when clicked
-      
+      $(':checkbox').change(function (event) {
+        event.preventDefault()
+        if ($(this).is(':checked')) {
+          $(this).siblings("label").css("text-decoration", "line-through")
+        } else {
+          $(this).siblings("label").css("text-decoration", "none")
+        }
+      })
     }
   })
 })
